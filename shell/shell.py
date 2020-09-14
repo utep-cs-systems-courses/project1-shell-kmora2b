@@ -18,8 +18,11 @@ def shell():
             usr_input = input()
         except EOFError:
             pass
-        
-        exec_shell_cmd(usr_input)
-        os.write(2, (os.environ['PS1']).encode())
+
+        s = cmdlibs.exec_fork(usr_input)
+        if s == 0 or usr_input == "exit":
+            sys.exit(0)
+        else:
+            os.write(2, (os.environ['PS1']).encode())
 
 shell()
